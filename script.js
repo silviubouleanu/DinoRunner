@@ -1,6 +1,9 @@
 const dino = document.querySelector('.dino');
 const grid = document.querySelector('.grid');
 const alert = document.getElementById('alert');
+const JUMP_COUNT = 15;
+const OBSTACLE_DISTANCE = 60;
+const JUMP_INCREMENT = 30;
 let isJumping = false;
 let gravity = 0.9;
 let position = 0;
@@ -9,7 +12,7 @@ let score = 0;
 let hiScore = 0;
 
 function control(e) {
-    if (e.keyCode === 32) {
+    if (e.keyCode === 32) { // the ASCII code for the space key is 32
         console.log("jump");
         if (!isJumping && !isGameOver) {
             isJumping = true;
@@ -23,7 +26,7 @@ document.addEventListener('keypress', control);
 function jump() {
     let count = 0;
     let timerID = setInterval(function () {
-        if (count === 15) {
+        if (count === JUMP_COUNT) {
             clearInterval(timerID);
             let downTimerID = setInterval(function () {
                 if (count === 0) {
@@ -31,14 +34,14 @@ function jump() {
                     isJumping = false;
                 }
                 position -= 4.8;
-                count--;
+                --count;
                 position = position * gravity;
                 if (position < 0) position = 0;
                 dino.style.bottom = position + 'px';
             }, 20);
         }
-        count++;
-        position += 30;
+        ++count;
+        position += JUMP_INCREMENT;
         position = position * gravity;
         dino.style.bottom = position + 'px';
     }, 20);
@@ -52,7 +55,7 @@ function generateObstacle() {
     grid.appendChild(obstacle);
     obstacle.style.left = obstaclePosition + 'px';
     let timerID = setInterval(function () {
-        if (obstaclePosition > 0 && obstaclePosition < 60 && position < 60) {
+        if (obstaclePosition > 0 && obstaclePosition < OBSTACLE_DISTANCE && position < OBSTACLE_DISTANCE) {
             clearInterval(timerID);
             alert.innerHTML = 'GAME OVER';
             isGameOver = true;
