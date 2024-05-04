@@ -64,7 +64,7 @@ function generateObstacle() {
         obstacle.style.left = obstaclePosition + 'px';
         if (obstaclePosition == 0) {
             if (!isGameOver) {
-                score++;
+                ++score;
                 if (score > hiScore) hiScore = score;
                 alert.innerHTML = score;
             }
